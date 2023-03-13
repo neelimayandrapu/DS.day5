@@ -1,0 +1,320 @@
+#BINARY TREE WITH DIFF TRAVERSAL METHODS
+class Node:
+    def __init__(self,key):
+        self.left=None
+        self.right=None
+        self.val=key
+def printInorder(root):
+    if root:
+        #first recur on left child
+        printInorder(root.left)
+        #then print the data of node
+        print(root.val,end= " " ),
+        #now recur on right child
+        printInorder(root.right)
+def printPostorder(root):
+    if root:
+        printPostorder(root.left)
+        printPostorder(root.right)
+        print(root.val,end= " "),
+def printPreorder(root):
+    if root:
+        print(root.val,end= " "),
+        printPreorder(root.left)
+        printPreorder(root.right)
+root=Node(1)
+root.left=Node(2)
+root.right=Node(3)
+root.left.left=Node(4)
+root.left.right=Node(5)
+print("PRE-ORDER: ")
+printPreorder(root)
+print()
+print("\n IN-ORDER: ")
+printInorder(root)
+print()
+print("\n POST-ORDER: ")
+printPostorder(root)
+print()
+o/p=
+PRE-ORDER: 
+1 2 4 5 3 
+
+ IN-ORDER: 
+4 2 5 1 3 
+
+ POST-ORDER: 
+4 5 2 3 1 
+
+                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Dictionary (forest of 3 trees:)
+Families = {
+             'Charley':
+                    { 'Sam' :{'Boxy' ,'Rosy'} ,
+                      'Nila ':{'Pepsi'}} ,
+             'Devi ':
+                      {'Tommy':{'Tony'},
+                       'Timmy':{'Hamster'},
+                       'Tammy':{'Hamster'}},
+             'Carlos':
+                    {'Diego':'cat','Ferret': 'Fox' }
+
+
+    
+           }
+for Parent, Children in Families.items():
+    print(f"{Parent} has {len(Children)}kid(s):")
+    print(f"{', and '.join([str(Child)for Child in [*Children]])}")
+
+
+
+##OUTPUT
+-->>
+Charley has 2kid(s):
+Sam, and Nila 
+Devi  has 3kid(s):
+Tommy, and Timmy, and Tammy
+Carlos has 2kid(s):
+Diego, and Ferret
+
+
+
+
+
+#BST-INSERTION
+class Node:
+    def __init__(self,key):
+        self.right=None
+        self.left=None
+        self.val=key
+def insert(root,key):
+        if root is None:
+            return Node(key)
+        else:
+            if (root.val== key):
+                return root
+            elif root.val<key:
+                root.right=insert(root.right, key)
+            else:
+                root.left=insert(root.left, key)
+        return root
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.val)
+        inorder(root.right)
+
+r = Node(100)
+r= insert(r,50)
+r = insert(r,450)
+r = insert(r,600)
+r = insert(r,30)
+r = insert(r,20)
+inorder(r)
+
+
+
+
+
+
+#BST INSERTION, DELETION AND INORDER
+
+class Node:
+    def __init__(self,key):
+        self.key=key
+        self.left=None
+        self.right=None
+def inorder(root):
+    if root is not None:
+        inorder(root.left)
+        print(root.key)
+        inorder(root.right)
+def insert(node,key):
+    if node is None:
+        return Node(key)
+    if key<node.key:
+        node.left=insert(node.left,key)
+    else:
+        node.right=insert(node.right,key)
+    return node
+def minValueNode(node):
+    current=node
+    while(current.left is not None):
+        current = current.left
+        return current
+def deleteNode(root,key):
+    if root is None:
+        return root
+    if key < root.key:
+        root.left = deleteNode(root.left,key)
+    elif key > root.key:
+        root.right = deleteNode(root.right,key)
+    else:
+        if root.left is None:
+            temp = root.right
+            root = None
+            return temp
+        elif root.right is None:
+            temp=root.left
+            root=None
+            return temp
+            #node with two children
+            #fet the inorder successer small value
+        temp = minValueNode(root.right)
+        root.key = temp.key
+        root.right = deleteNode(root.right,temp.key)
+    return root
+root=None
+root=insert(root,50)
+root=insert(root,30)
+root=insert(root,20)
+root=insert(root,40)
+root=insert(root,70)
+root=insert(root,60)
+root=insert(root,80)
+print("Inorder traversal of the given tree")
+inorder(root)
+print("\nDelete 20")
+root = deleteNode(root,20)
+print("Inorder traversal of the modified tree")
+inorder(root)
+print("\nDelete 30")
+root = deleteNode(root,30)
+print("Inorder traversal of the modified tree")
+inorder(root)
+print("\nDelete 50")
+root = deleteNode(root,50)
+print("Inorder traversal of the modified tree")
+inorder(root)
+o/p=
+Inorder traversal of the given tree
+20
+30
+40
+50
+60
+70
+80
+
+Delete 20
+Inorder traversal of the modified tree
+30
+40
+50
+60
+70
+80
+
+Delete 30
+Inorder traversal of the modified tree
+40
+50
+60
+70
+80
+
+Delete 50
+Inorder traversal of the modified tree
+40
+60
+70
+80
+
+#implimentation of graph with dictionary using collection module
+from collections import defaultdict
+#add edge to graph : function
+graph=defaultdict(list)
+def addEdge(graph,u,v):
+    graph[u].append(v)
+#function description
+def generate_edges(graph):
+    edges=[]
+    #for each node in graph
+    for node in graph:
+        #for each neighbour node of a single node
+        for neighbour in graph[node]:
+            #if edge exists the append
+            edges.append((node,neighbour))
+    return edges
+addEdge(graph,'a','c')
+addEdge(graph,'b','c')
+addEdge(graph,'b','e')
+addEdge(graph,'c','d')
+addEdge(graph,'c','e')
+addEdge(graph,'c','a')
+addEdge(graph,'c','b')
+addEdge(graph,'e','b')
+addEdge(graph,'d','c')
+addEdge(graph,'e','c')
+#printing graph
+print(generate_edges(graph))
+o/p=
+[('a', 'c'), ('b', 'c'), ('b', 'e'), ('c', 'd'), ('c', 'e'), ('c', 'a'), ('c', 'b'), ('e', 'b'), ('e', 'c'), ('d', 'c')]
+
+
+#BFS GRAPHS TRAVERSAL IMPLIMENTATION
+g={'5':['3','7'],'3':['2','4'],'7':['8'],'2':[],'4':['8'],'8':[]}
+visited=[]
+q=[]
+def bfs(visited,g,node):
+    visited.append(node)
+    q.append(node)
+    while q:
+        m=q.pop(0)
+        print(m,end=" ")
+        for neighbour in g[m]:
+            if neighbour not in visited:
+                visited.append(neighbour)
+                q.append(neighbour)
+bfs(visited,g,'5')
+o/p=5 3 7 2 4 8 
+
+
+
+
+
+
+##OUTPUT
+-->>
+20
+30
+50
+100
+450
+600
